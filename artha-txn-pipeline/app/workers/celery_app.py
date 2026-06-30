@@ -17,5 +17,5 @@ celery_app.conf.update(
     enable_utc=True,
     task_acks_late=True,
     worker_prefetch_multiplier=1,
-    task_routes={"app.workers.tasks.process_job": {"queue": "default"}},
+    task_routes={"app.workers.tasks.process_job": {"queue": "celery"}},
 )

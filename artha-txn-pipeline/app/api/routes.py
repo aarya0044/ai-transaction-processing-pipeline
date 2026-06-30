@@ -56,9 +56,19 @@ def get_job_status(job_id: str, db: Session = Depends(get_db)):
             "risk_level": job.summary.risk_level,
             "top_merchants": job.summary.top_merchants,
         }
-    out = JobStatusOut.model_validate(job)
-    out.summary = summary
-    return out
+    return JobStatusOut(
+        id=job.id,
+        filename=job.filename,
+        status=job.status.value,
+        row_count_raw=job.row_count_raw,
+        row_count_clean=job.row_count_clean,
+        duplicate_count=job.duplicate_count,
+        progress_pct=job.progress_pct,
+        created_at=job.created_at,
+        completed_at=job.completed_at,
+        error_message=job.error_message,
+        summary=summary,
+    )
 
 
 @router.get("/jobs/{job_id}/results", response_model=JobResultsOut)
